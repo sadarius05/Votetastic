@@ -6,7 +6,8 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { filter, map, Observable, take } from 'rxjs';
+import { User } from '@supabase/supabase-js';
+import { filter, map, Observable, take, tap } from 'rxjs';
 import { AuthService } from '../service/auth.service';
 
 @Injectable({
@@ -15,19 +16,24 @@ import { AuthService } from '../service/auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  canActivate():
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     return this.authService.getCurrentUser().pipe(
       filter((val) => val !== null),
       take(1),
-      map((isAuthenticated: any) => {
-        if (isAuthenticated) {
+      map((isAuthenticated: User) => {
+        if (isAuthenticated.user_metadata) {
+          console.log(
+            'isAuthenticated',
+            isAuthenticated,
+            isAuthenticated.user_metadata
+          );
           return true;
         } else {
-          this.router.createUrlTree(['/']);
-          return false;
+          return this.router.createUrlTree(['/']);
         }
       })
     );
