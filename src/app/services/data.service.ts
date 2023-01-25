@@ -28,7 +28,25 @@ export class DataService {
   }
 
   async getVotings() {
-    const votings = await this.supabase.from(TABLE_VOTINGS).select('*');
+    const votings = await this.supabase
+      .from(TABLE_VOTINGS)
+      .select('*')
+      .eq('creator_id', (await this.supabase.auth.getUser()).data.user?.id);
     return votings.data || [];
+  }
+
+  async getVotingDetails(id: number) {
+    return this.supabase.from(TABLE_VOTINGS).select('*').eq('id', id).single();
+  }
+
+  updateVotingDetails(voting: any, id: number) {
+    return this.supabase
+      .from(TABLE_VOTINGS)
+      .update(voting)
+      .eq('id', id)
+      .single();
+  }
+  deleteVoting(id: number) {
+    return this.supabase.from(TABLE_VOTINGS).delete().eq('id', id).single();
   }
 }

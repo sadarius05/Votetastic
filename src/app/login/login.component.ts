@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private toaster: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +35,9 @@ export class LoginComponent implements OnInit {
     console.log(data);
     if (error) {
     } else {
-      this.router.navigateByUrl('app', { replaceUrl: true });
+      this.router
+        .navigateByUrl('app', { replaceUrl: true })
+        .then(() => this.toaster.success('You signed in'));
     }
   }
   async register() {

@@ -9,5 +9,6 @@ module.exports = {
       strategy: "base", // only generate global styles
       strategy: "class", // only generate classes
     }),
+    require("@tailwindcss/line-clamp"),
   ],
 };
