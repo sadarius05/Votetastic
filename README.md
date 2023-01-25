@@ -1,27 +1,46 @@
-# VotingApp
+# Votetastic, make your voting fantastic
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+This is a project led by Simon Grimm.
 
-## Development server
+He is actively working on this project during livestreams on
+his [YouTube channel](https://www.youtube.com/c/SimonGrimmDev),
+as well as his [Twitch Channel](https://www.twitch.tv/captainionic), where he interacts with the community in different
+ways.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Simon is streaming every Thursday 15:00 (3p.m.) CET (Central European Time). Come and join us in helping him develop
+this app!
 
-## Code scaffolding
+## Overall description
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+We (the community and Simon) are making an app where everyone can vote for future projects,
+that Simon should cover in his videos and livestreams.
 
-## Build
+## Technologies
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+We are using Angular 14 as our frontend Framework, together with Tailwind(-UI).
+We are using Supabase as our BaaS where we store all data.
 
-## Running unit tests
+## Implementation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The work is uploaded to [Git](https://github.com/saimon24/Votetastic) and the WIP is deployed
+on [Netlify](https://classy-kitsune-3f9088.netlify.app/).
+You can use the dummy account on the app to test it out yourself!
 
-## Running end-to-end tests
+![image](https://user-images.githubusercontent.com/40073861/184167833-9351f3c4-86ac-45ac-bc57-d9932e6126bb.png)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Contribution
 
-## Further help
+Fork the code and submit your contribution as a Pull Request. Get your name out there!
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Anyone can contribute and help out!
+
+You can find a list of open tasks in the `todo.md` file in the root Folder.
+
+## Socials
+
+- [YouTube](https://www.youtube.com/c/SimonGrimmDev)
+- [Twitch](https://www.twitch.tv/captainionic)
+- [Git](https://github.com/saimon24)
+- [Git (votetastic Repo)](https://github.com/saimon24/Votetastic)
+- [Devdactic](http://devdactic.com/devblog/)
+- [Ionic Academy](https://ionicacademy.com/)

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DataService } from 'src/app/services/data.service';
@@ -12,7 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 export class VotingsDetailsComponent implements OnInit {
   voting: any = null;
   form!: FormGroup;
-  options!: FormGroup;
+  formOptions!: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,7 +28,9 @@ export class VotingsDetailsComponent implements OnInit {
       public: [false],
     });
 
-    this.options = this.fb.group({});
+    this.formOptions = this.fb.group({
+      options: this.fb.array([]),
+    });
   }
 
   async ngOnInit() {
@@ -49,13 +51,23 @@ export class VotingsDetailsComponent implements OnInit {
     this.router.navigateByUrl('/app');
   }
 
-  addOption() {}
-
-  getNewOption() {
-    return this.fb.group({
-      title: '',
-    });
+  get options(): FormArray {
+    return this.formOptions.controls['options'] as FormArray;
   }
 
-  saveOptions() {}
+  addOption() {
+    const option = this.fb.group({
+      title: ['', Validators.required],
+      id: null,
+    });
+    this.options.push(option);
+  }
+
+  deleteOption(index: number) {
+    this.options.removeAt(index);
+  }
+
+  saveOptions() {
+    console.log('SAVE:', this.formOptions.value);
+  }
 }
