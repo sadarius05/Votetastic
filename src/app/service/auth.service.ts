@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CurrentUser } from '../types/currentUser';
+import { CurrentUser } from '../interfaces/currentUser';
 
 @Injectable({
   providedIn: 'root',

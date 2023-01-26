@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
-import { Voting } from 'src/app/types/voting';
+import { Voting } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-votings-list',
