@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VotingComponent } from './voting/voting.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, VotingComponent],
@@ -19,6 +20,7 @@ import { VotingComponent } from './voting/voting.component';
     InsideModule,
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
+    NgChartsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
