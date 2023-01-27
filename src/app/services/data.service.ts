@@ -54,10 +54,12 @@ export class DataService {
   }
 
   async getVotingOptions(votingId: number) {
-    return await this.supabase
+    const val = await this.supabase
       .from(TABLE_VOTING_OPTIONS)
       .select('*')
       .eq('voting_id', votingId);
+    console.log('val :', val);
+    return val;
   }
 
   async addVotingOption(option: VotingOption) {
@@ -81,5 +83,8 @@ export class DataService {
       .delete()
       .eq('id', id)
       .single();
+  }
+  voteForOption(id: string) {
+    return this.supabase.rpc('increment', { row_id: id });
   }
 }

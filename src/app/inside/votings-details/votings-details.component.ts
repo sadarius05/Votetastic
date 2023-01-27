@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { zip } from 'rxjs';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../../services/data.service';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { zip } from 'rxjs';
 import { Voting } from 'src/app/interfaces';
-import { DataService } from 'src/app/services/data.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-votings-details',
@@ -13,15 +14,15 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class VotingsDetailsComponent implements OnInit {
   voting: Voting = null!;
-  form!: FormGroup;
-  formOptions!: FormGroup;
-
+  form: FormGroup;
+  formOptions: FormGroup;
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService,
     private fb: FormBuilder,
     private toaster: ToastrService,
-    private router: Router
+    private router: Router,
+    private clipboard: Clipboard
   ) {
     this.form = this.fb.group({
       voting_question: ['', Validators.required],
@@ -29,18 +30,23 @@ export class VotingsDetailsComponent implements OnInit {
       description: [''],
       public: [false],
     });
-
     this.formOptions = this.fb.group({
       options: this.fb.array([]),
     });
   }
 
+  get options(): FormArray {
+    return this.formOptions.controls['options'] as FormArray;
+  }
+
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+
     if (id) {
       this.voting = await (await this.dataService.getVotingDetails(+id)).data;
-
       const options = await (await this.dataService.getVotingOptions(+id)).data;
+
+      console.log('options', options);
 
       options?.map((item) => {
         const option = this.fb.group({
@@ -49,23 +55,17 @@ export class VotingsDetailsComponent implements OnInit {
         });
         this.options.push(option);
       });
-
       this.form.patchValue(this.voting);
     }
   }
-
   async updateVoting() {
     await this.dataService.updateVotingDetails(this.form.value, this.voting.id);
-    this.toaster.success('Voting Updated!');
+    this.toaster.success('Voting updated!');
   }
   async deleteVoting() {
     await this.dataService.deleteVoting(this.voting.id);
     this.toaster.info('Voting deleted!');
     this.router.navigateByUrl('/app');
-  }
-
-  get options(): FormArray {
-    return this.formOptions.controls['options'] as FormArray;
   }
 
   addOption() {
@@ -76,29 +76,40 @@ export class VotingsDetailsComponent implements OnInit {
     });
     this.options.push(option);
   }
-
   async deleteOption(index: number) {
     const control = this.options.at(index);
-
     const id = control.value.id;
     await this.dataService.deleteVotingOption(id);
     this.options.removeAt(index);
   }
-
   saveOptions() {
-    console.log('SAVE:', this.formOptions.value);
+    console.log('SAVE: ', this.formOptions.value.options);
+    // TODO: Add loading
     const obs = [];
     for (let entry of this.formOptions.value.options) {
       if (!entry.id) {
-        console.log('ADD THIS: ', entry);
         const newObs = this.dataService.addVotingOption(entry);
         obs.push(newObs);
       } else {
+        const newObs = this.dataService.updateVotingOption(entry);
+        obs.push(newObs);
       }
     }
+
     zip(obs).subscribe((res) => {
       console.log('AFTER ADD: ', res);
-      this.toaster.success('Voting updated !');
+      this.toaster.success('Voting updated!');
     });
+  }
+
+  copyUrlToClipboard() {
+    const shareableUrl = `${window.location.origin}/voting/${this.voting.id}`;
+    this.clipboard.copy(shareableUrl);
+    this.toaster.info('URL copied to Clipboard');
+  }
+
+  getUrl(): string {
+    const shareableUrl = `${window.location.origin}/voting/${this.voting.id}`;
+    return shareableUrl;
   }
 }
