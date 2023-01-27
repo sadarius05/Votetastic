@@ -2,16 +2,10 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from 'src/environments/environment';
 import { Voting } from '../interfaces';
+import { VotingOption } from '../interfaces/votingOption';
 
 export const TABLE_VOTINGS = 'votings';
 export const TABLE_VOTING_OPTIONS = 'voting_options';
-export interface VotingOption {
-  id?: number;
-  creator_id?: string;
-  voting_id: number;
-  title: string;
-  votes: number;
-}
 
 @Injectable({
   providedIn: 'root',

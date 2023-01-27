@@ -41,7 +41,6 @@ export class VotingsDetailsComponent implements OnInit {
       this.voting = await (await this.dataService.getVotingDetails(+id)).data;
 
       const options = await (await this.dataService.getVotingOptions(+id)).data;
-      console.log('options :', options);
 
       options?.map((item) => {
         const option = this.fb.group({

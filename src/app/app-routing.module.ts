@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
-import { InsideModule } from './inside/inside.module';
 import { LoginComponent } from './login/login.component';
+import { VotingComponent } from './voting/voting.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -12,6 +12,7 @@ const routes: Routes = [
       import('./inside/inside.module').then((m) => m.InsideModule),
     canActivate: [AuthGuard],
   },
+  { path: 'voting/:id', component: VotingComponent },
 ];
 
 @NgModule({
